@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/data/data/com.termux/files/
 
 # Termux Android Build Environment Setup Script
 # This script automates the complete setup process for building Android apps in Termux
