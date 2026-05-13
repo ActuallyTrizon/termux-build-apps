@@ -13,7 +13,7 @@ The fastest way to set up your build environment is using the automated setup sc
 
 ```bash
 # Download and run the setup script
-wget -O ~/termux-setup.sh https://raw.githubusercontent.com/illegalvoid/termux-build-apps/main/setup.sh
+wget -O ~/termux-setup.sh https://raw.githubusercontent.com/ActuallyTrizon/termux-build-apps/refs/heads/main/setup.sh
 chmod +x ~/termux-setup.sh
 bash ~/termux-setup.sh
 ```
