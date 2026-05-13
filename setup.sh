@@ -44,9 +44,9 @@ echo ""
 
 print_info "Installing Android SDK..."
 if [ ! -d "$HOME/android-sdk" ]; then
-    wget -O ~/install-android-sdk.sh https://raw.githubusercontent.com/Sohil876/termux-sdk-installer/main/installer.sh
-    chmod +x ~/install-android-sdk.sh
-    bash ~/install-android-sdk.sh -i
+    wget -O https://raw.githubusercontent.com/Sohil876/termux-sdk-installer/main/installer.sh
+    chmod +x ~/installer.sh
+    bash ~/installer.sh -i
     print_status "Android SDK installed"
 else
     print_info "Android SDK already exists, skipping installation"
