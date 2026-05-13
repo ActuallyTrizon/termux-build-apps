@@ -25,11 +25,11 @@ source ~/.bashrc
 
 The script will automatically:
 - Update Termux packages
-- Install Java 21 (latest LTS)
+- Install Java 17 (latest LTS)
 - Install Android SDK
 - Accept SDK licenses
-- Install Android Platform API 35
-- Install Gradle 8.10.2 (latest stable)
+- Install Android Platform API 36
+- Install Gradle 8.12.3 (specific)
 - Configure aapt2 path
 - Set up all environment variables
 
