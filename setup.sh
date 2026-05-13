@@ -34,9 +34,9 @@ pkg update -y && pkg upgrade -y
 print_status "Packages updated successfully"
 echo ""
 
-# Step 2: Install required packages (Java 21 - latest LTS)
-print_info "Installing OpenJDK 21 and wget..."
-pkg install wget openjdk-21 -y
+# Step 2: Install required packages (Java 17 - latest LTS)
+print_info "Installing OpenJDK 17 and wget..."
+pkg install wget openjdk-17 -y
 print_status "Required packages installed"
 echo ""
 
@@ -72,14 +72,14 @@ yes | sdkmanager --licenses > /dev/null 2>&1
 print_status "Licenses accepted"
 echo ""
 
-# Step 5: Install latest Android platform (API 35 - Android 15)
-print_info "Installing Android platform API 35..."
-yes | sdkmanager "platforms;android-35"
+# Step 5: Install latest Android platform (API 36 - Android 16)
+print_info "Installing Android platform API 36..."
+yes | sdkmanager "platforms;android-36"
 print_status "Android platform installed"
 echo ""
 
-# Step 6: Install Gradle 8.10.2 (latest stable)
-GRADLE_VERSION="8.10.2"
+# Step 6: Install Gradle 8.12.3 (latest stable)
+GRADLE_VERSION="8.12.3"
 print_info "Installing Gradle ${GRADLE_VERSION}..."
 
 if [ ! -d "$ANDROID_HOME/gradle" ]; then
@@ -146,7 +146,7 @@ echo ""
 echo "Installed versions:"
 echo "  - Java: $(java -version 2>&1 | head -n 1)"
 echo "  - Gradle: $(gradle -v 2>&1 | grep "Gradle" | head -n 1)"
-echo "  - Android Platform: API 35"
+echo "  - Android Platform: API 36"
 echo "  - Build Tools: $BUILD_TOOLS_VERSION"
 echo ""
 echo "Environment variables:"
