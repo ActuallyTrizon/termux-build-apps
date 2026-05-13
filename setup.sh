@@ -1,20 +1,14 @@
-#!/data/data/com.termux/files/
-
-# Termux Android Build Environment Setup Script
-# This script automates the complete setup process for building Android apps in Termux
-
-set -e  # Exit on error
+set -e
 
 echo "================================================"
 echo "Termux Android Build Environment Setup"
 echo "================================================"
 echo ""
 
-# Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 print_status() {
     echo -e "${GREEN}[✓]${NC} $1"
@@ -28,19 +22,16 @@ print_info() {
     echo -e "${YELLOW}[i]${NC} $1"
 }
 
-# Step 1: Update and upgrade packages
 print_info "Updating and upgrading Termux packages..."
-pkg update -y && pkg upgrade -y
+pkg update && pkg upgrade -y
 print_status "Packages updated successfully"
 echo ""
 
-# Step 2: Install required packages (Java 17 - latest LTS)
-print_info "Installing OpenJDK 17 and wget..."
-pkg install wget openjdk-17 -y
+print_info "Installing OpenJDK 17..."
+pkg install openjdk-17 -y
 print_status "Required packages installed"
 echo ""
 
-# Verify Java installation
 print_info "Verifying Java installation..."
 if java -version 2>&1 | grep -q "openjdk"; then
     print_status "Java installed successfully:"
@@ -51,7 +42,6 @@ else
 fi
 echo ""
 
-# Step 3: Install Android SDK
 print_info "Installing Android SDK..."
 if [ ! -d "$HOME/android-sdk" ]; then
     wget -O ~/install-android-sdk.sh https://raw.githubusercontent.com/Sohil876/termux-sdk-installer/main/installer.sh
@@ -63,22 +53,18 @@ else
 fi
 echo ""
 
-# Source bashrc to get ANDROID_HOME
 source ~/.bashrc 2>/dev/null || export ANDROID_HOME=$HOME/android-sdk
 
-# Step 4: Accept Android SDK licenses
 print_info "Accepting Android SDK licenses..."
 yes | sdkmanager --licenses > /dev/null 2>&1
 print_status "Licenses accepted"
 echo ""
 
-# Step 5: Install latest Android platform (API 36 - Android 16)
 print_info "Installing Android platform API 36..."
 yes | sdkmanager "platforms;android-36"
 print_status "Android platform installed"
 echo ""
 
-# Step 6: Install Gradle 8.12.3 (latest stable)
 GRADLE_VERSION="8.12.3"
 print_info "Installing Gradle ${GRADLE_VERSION}..."
 
@@ -93,14 +79,12 @@ else
 fi
 echo ""
 
-# Step 7: Add Gradle to PATH if not already added
 if ! grep -q "ANDROID_HOME/gradle/bin" ~/.bashrc; then
     echo 'export PATH=${PATH}:${ANDROID_HOME}/gradle/bin' >> ~/.bashrc
     print_status "Gradle added to PATH"
 fi
 source ~/.bashrc
 
-# Verify Gradle installation
 print_info "Verifying Gradle installation..."
 export PATH=${PATH}:${ANDROID_HOME}/gradle/bin
 if gradle -v 2>&1 | grep -q "Gradle"; then
@@ -112,23 +96,20 @@ else
 fi
 echo ""
 
-# Step 8: Fix aapt2 issue
 print_info "Configuring aapt2 path..."
 mkdir -p ~/.gradle
 GRADLE_PROPERTIES="$HOME/.gradle/gradle.properties"
 
-# Find the latest build-tools version
 BUILD_TOOLS_VERSION=$(ls -1 $ANDROID_HOME/build-tools/ | sort -V | tail -n 1)
 
 if [ -n "$BUILD_TOOLS_VERSION" ]; then
     AAPT2_PATH="$ANDROID_HOME/build-tools/$BUILD_TOOLS_VERSION/aapt2"
     
-    # Check if aapt2 line already exists
     if grep -q "android.aapt2FromMavenOverride" "$GRADLE_PROPERTIES" 2>/dev/null; then
-        # Update existing line
+        
         sed -i "s|android.aapt2FromMavenOverride=.*|android.aapt2FromMavenOverride=$AAPT2_PATH|" "$GRADLE_PROPERTIES"
     else
-        # Add new line
+        
         echo "android.aapt2FromMavenOverride=$AAPT2_PATH" >> "$GRADLE_PROPERTIES"
     fi
     print_status "aapt2 path configured (build-tools version: $BUILD_TOOLS_VERSION)"
@@ -138,7 +119,6 @@ else
 fi
 echo ""
 
-# Final summary
 echo "================================================"
 echo -e "${GREEN}Setup completed successfully!${NC}"
 echo "================================================"
